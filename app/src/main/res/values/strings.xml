@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">The Derby</string>
+    <string name="start_game">Tip-off</string>
+    <string name="home_text_LBL">THE DERBY</string>
+    <string name="game_over">GAME OVER</string>
+    <string name="play_again">Play Again</string>
+    <string name="main_menu">main menu</string>
+    <string name="heart_life_3">Heart life indicator 3</string>
+    <string name="heart_life_2">Heart life indicator 2</string>
+    <string name="heart_life_1">Heart life indicator 1</string>
+    <string name="referee_foul_indicator">Referee foul indicator</string>
+    <string name="player_character">Player character</string>
+    <string name="move_left_button">Move left</string>
+    <string name="move_right_button">Move right</string>
+
+</resources>

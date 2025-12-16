@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/home_background">
+
+    <TextView
+        android:id="@+id/MainTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/home_text_LBL"
+        android:textSize="@dimen/main_LBL_size"
+        android:textStyle="bold"
+        android:textColor="@color/color_home_screen"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/russo"
+        android:layout_marginTop="@dimen/main_margin_title" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/start_game_BTN"
+        android:layout_width="@dimen/size_main_btn_width"
+        android:layout_height="@dimen/size_btn_high"
+        android:text="@string/start_game"
+        android:textSize="@dimen/text_size"
+        android:fontFamily="@font/russo"
+        android:textStyle="bold"
+        android:textColor="@color/color_text_btn"
+        android:backgroundTint="@color/color_home_screen"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/width_image_layout"
+        app:cornerRadius="@dimen/radius_button"  />
+</RelativeLayout>

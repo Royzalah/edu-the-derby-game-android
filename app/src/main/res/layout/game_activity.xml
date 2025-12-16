@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/court"
+    tools:context=".GameActivity">
+
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/hearts_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/default_margin_heart"
+        android:layout_marginEnd="@dimen/default_margin_heart"
+        android:orientation="horizontal">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/main_IMG_heart0"
+            android:layout_width="@dimen/heart_size"
+            android:layout_height="@dimen/heart_size"
+            android:layout_marginHorizontal="@dimen/default_margin_heart"
+            app:srcCompat="@drawable/heart" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/main_IMG_heart1"
+            android:layout_width="@dimen/heart_size"
+            android:layout_height="@dimen/heart_size"
+            android:layout_marginHorizontal="@dimen/default_margin_heart"
+            app:srcCompat="@drawable/heart" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/main_IMG_heart2"
+            android:layout_width="@dimen/heart_size"
+            android:layout_height="@dimen/heart_size"
+            android:layout_marginHorizontal="@dimen/default_margin_heart"
+            app:srcCompat="@drawable/heart" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <LinearLayout
+        android:id="@+id/linearMatrix"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@id/arrows_container"
+        android:layout_below="@id/hearts_layout"
+        android:orientation="vertical"
+        android:weightSum="7">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+            <ImageView android:id="@+id/cell_0_0" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_0_1" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_0_2" style="@style/GridCell" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+            <ImageView android:id="@+id/cell_1_0" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_1_1" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_1_2" style="@style/GridCell" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+            <ImageView android:id="@+id/cell_2_0" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_2_1" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_2_2" style="@style/GridCell" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+            <ImageView android:id="@+id/cell_3_0" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_3_1" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_3_2" style="@style/GridCell" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+            <ImageView android:id="@+id/cell_4_0" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_4_1" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_4_2" style="@style/GridCell" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+            <ImageView android:id="@+id/cell_5_0" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_5_1" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_5_2" style="@style/GridCell" />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+            <ImageView android:id="@+id/cell_6_0" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_6_1" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_6_2" style="@style/GridCell" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/foul_IMG_ref"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ref_foul1"
+        android:visibility="gone"
+        android:elevation="@dimen/margin_bottom"/>
+
+    <LinearLayout
+        android:id="@+id/arrows_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_bottom">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/left_BTN_arrow"
+            android:layout_width="@dimen/width_margin_screen"
+            android:layout_height="@dimen/arrow_size"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/left_arrow"/>
+
+        <View
+            android:layout_width="@dimen/margin_view_arrows"
+            android:layout_height="match_parent" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/right_BTN_arrow"
+            android:layout_width="@dimen/width_margin_screen"
+            android:layout_height="@dimen/arrow_size"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/right_arrow"/>
+    </LinearLayout>
+
+</RelativeLayout>

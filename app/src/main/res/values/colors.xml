@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="text">#FFFFFFFF</color>
+    <color name="color_text_btn">#0055A5</color>
+    <color name="color_home_screen">#FDD835</color>
+    <color name="color_game_over_lbl">#FF3D00</color>
+    <color name="background_res_screen">#D9000000</color>
+
+</resources>
