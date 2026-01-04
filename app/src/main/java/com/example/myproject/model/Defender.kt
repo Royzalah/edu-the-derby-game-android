@@ -1,20 +1,15 @@
 package com.example.myproject.model
 
+import com.example.myproject.enum.DefenderType
 
-class Defender(
-    var row: Int,
-    var col: Int,
-    var type: DefenderType = DefenderType.getRandom()
+// Represents an enemy object; Inherits movement logic from BaseObject
+class Defender(row: Int, col: Int) : BaseObject(row, col) {
+    var type = DefenderType.entries.random()
 
-) {
-    fun moveDown(maxRows: Int): Boolean {
-        row++
-        return row >= maxRows
-    }
-
+    // Resets the defender to the top with a new random lane and skin
     fun reset(numLanes: Int) {
         row = 0
         col = (0 until numLanes).random()
-        type = DefenderType.getRandom()
+        type = DefenderType.values().random()
     }
 }

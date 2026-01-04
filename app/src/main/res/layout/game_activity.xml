@@ -9,7 +9,20 @@
     android:background="@drawable/court"
     tools:context=".GameActivity">
 
-
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/score_LBL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/score_placeholder"
+        android:layout_toStartOf="@id/hearts_layout"
+        android:textSize="@dimen/text_gigantic"
+        android:layout_alignTop="@id/hearts_layout"
+        android:textStyle="bold"
+        android:fontFamily="@font/russo"
+        android:layout_marginLeft="@dimen/margin_lg"
+        android:textColor="@color/holo_blue_dark"
+        android:layout_alignParentStart="true"
+        />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/hearts_layout"
@@ -17,30 +30,29 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/default_margin_heart"
-        android:layout_marginEnd="@dimen/default_margin_heart"
+        android:layout_marginTop="@dimen/margin_md"
+        android:layout_marginEnd="@dimen/margin_md"
         android:orientation="horizontal">
-
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/main_IMG_heart0"
             android:layout_width="@dimen/heart_size"
             android:layout_height="@dimen/heart_size"
-            android:layout_marginHorizontal="@dimen/default_margin_heart"
+            android:layout_marginHorizontal="@dimen/margin_md"
             app:srcCompat="@drawable/heart" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/main_IMG_heart1"
             android:layout_width="@dimen/heart_size"
             android:layout_height="@dimen/heart_size"
-            android:layout_marginHorizontal="@dimen/default_margin_heart"
+            android:layout_marginHorizontal="@dimen/margin_md"
             app:srcCompat="@drawable/heart" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/main_IMG_heart2"
             android:layout_width="@dimen/heart_size"
             android:layout_height="@dimen/heart_size"
-            android:layout_marginHorizontal="@dimen/default_margin_heart"
+            android:layout_marginHorizontal="@dimen/margin_md"
             app:srcCompat="@drawable/heart" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -48,8 +60,9 @@
         android:id="@+id/linearMatrix"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_above="@id/arrows_container"
+        android:layoutDirection="ltr"
         android:layout_below="@id/hearts_layout"
+        android:layout_above="@id/arrows_container"
         android:orientation="vertical"
         android:weightSum="7">
 
@@ -57,42 +70,56 @@
             <ImageView android:id="@+id/cell_0_0" style="@style/GridCell" />
             <ImageView android:id="@+id/cell_0_1" style="@style/GridCell" />
             <ImageView android:id="@+id/cell_0_2" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_0_3" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_0_4" style="@style/GridCell" />
         </LinearLayout>
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
             <ImageView android:id="@+id/cell_1_0" style="@style/GridCell" />
             <ImageView android:id="@+id/cell_1_1" style="@style/GridCell" />
             <ImageView android:id="@+id/cell_1_2" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_1_3" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_1_4" style="@style/GridCell" />
         </LinearLayout>
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
             <ImageView android:id="@+id/cell_2_0" style="@style/GridCell" />
             <ImageView android:id="@+id/cell_2_1" style="@style/GridCell" />
             <ImageView android:id="@+id/cell_2_2" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_2_3" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_2_4" style="@style/GridCell" />
         </LinearLayout>
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
             <ImageView android:id="@+id/cell_3_0" style="@style/GridCell" />
             <ImageView android:id="@+id/cell_3_1" style="@style/GridCell" />
             <ImageView android:id="@+id/cell_3_2" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_3_3" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_3_4" style="@style/GridCell" />
         </LinearLayout>
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
             <ImageView android:id="@+id/cell_4_0" style="@style/GridCell" />
             <ImageView android:id="@+id/cell_4_1" style="@style/GridCell" />
             <ImageView android:id="@+id/cell_4_2" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_4_3" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_4_4" style="@style/GridCell" />
         </LinearLayout>
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
             <ImageView android:id="@+id/cell_5_0" style="@style/GridCell" />
             <ImageView android:id="@+id/cell_5_1" style="@style/GridCell" />
             <ImageView android:id="@+id/cell_5_2" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_5_3" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_5_4" style="@style/GridCell" />
         </LinearLayout>
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
             <ImageView android:id="@+id/cell_6_0" style="@style/GridCell" />
             <ImageView android:id="@+id/cell_6_1" style="@style/GridCell" />
             <ImageView android:id="@+id/cell_6_2" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_6_3" style="@style/GridCell" />
+            <ImageView android:id="@+id/cell_6_4" style="@style/GridCell" />
         </LinearLayout>
 
     </LinearLayout>
@@ -104,7 +131,7 @@
         android:layout_centerInParent="true"
         android:src="@drawable/ref_foul1"
         android:visibility="gone"
-        android:elevation="@dimen/margin_bottom"/>
+        android:elevation="@dimen/foul_image_elevation"/>
 
     <LinearLayout
         android:id="@+id/arrows_container"
@@ -112,27 +139,28 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:padding="@dimen/margin_bottom">
+        android:layoutDirection="ltr"
+        android:padding="@dimen/margin_lg">
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/left_BTN_arrow"
-            android:layout_width="@dimen/width_margin_screen"
+            android:layout_width="0dp"
             android:layout_height="@dimen/arrow_size"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
+            android:background="@color/transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/left_arrow"/>
 
         <View
-            android:layout_width="@dimen/margin_view_arrows"
+            android:layout_width="@dimen/arrow_container_margin"
             android:layout_height="match_parent" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/right_BTN_arrow"
-            android:layout_width="@dimen/width_margin_screen"
+            android:layout_width="0dp"
             android:layout_height="@dimen/arrow_size"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
+            android:background="@color/transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/right_arrow"/>
     </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.myproject.model
+package com.example.myproject.enum
 
 import com.example.myproject.R
 

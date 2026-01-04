@@ -1,48 +1,55 @@
 package com.example.myproject
 
-import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.os.VibratorManager
 import android.view.View
-import android.widget.ImageButton
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.myproject.logic.GameGridManager
 import com.example.myproject.logic.GameManager
 import com.example.myproject.model.AttackPlayer
-import com.example.myproject.model.FoulType
-import com.example.myproject.utilites.Constants
+import com.example.myproject.enum.FoulType
+import com.example.myproject.utilities.Constants
+import com.example.myproject.utilities.TiltDetector
+import com.example.myproject.utilities.SignalManager
+import com.example.myproject.utilities.VibrationManager
+import com.example.myproject.logic.GameTicker
 
-class GameActivity : AppCompatActivity() {
+class GameActivity : AppCompatActivity(), TiltDetector.TiltCallback {
 
     private lateinit var main_IMG_hearts: Array<AppCompatImageView>
-    private lateinit var right_BTN_arrow: ImageButton
-    private lateinit var left_BTN_arrow: ImageButton
+    private lateinit var right_BTN_arrow: AppCompatImageButton
+    private lateinit var left_BTN_arrow: AppCompatImageButton
     private lateinit var foul_IMG_ref: AppCompatImageView
     private lateinit var linearMatrix: LinearLayout
+    private lateinit var score_LBL: AppCompatTextView
+    private lateinit var arrows_container: LinearLayout
 
-    private lateinit var gameGride: Array<Array<AppCompatImageView>>
+    private lateinit var gameGridManager: GameGridManager
     private lateinit var attackPlayer: AttackPlayer
     private lateinit var gameManager: GameManager
+    private lateinit var tiltDetector: TiltDetector
 
-    private val handler = Handler(Looper.getMainLooper())
-    private val gameTickMs = Constants.GAME_TICK_MS
-    private var isGameRunning = false
+    // Replaced Handler/Runnable with GameTicker
+    private lateinit var gameTicker: GameTicker
+
+    private var baseSpeed: Long = Constants.GAME_TICK_MS
+    private var useSensors: Boolean = false
+    private var isFastMode: Boolean = false
+    private var currentTiltY: Float = 0.0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.game_activity)
+
+        initBackgroundMusic()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -50,129 +57,149 @@ class GameActivity : AppCompatActivity() {
             insets
         }
 
+        useSensors = intent.getBooleanExtra(Constants.KEY_SENSORS, false)
+        isFastMode = intent.getBooleanExtra("KEY_FAST", false)
+
         findViews()
-        buildGameGrid()
 
-        // 1. Initialize AttackPlayer
-        attackPlayer = AttackPlayer(
-            numLanes = Constants.NUM_LANES
-        )
+        // Set base speed
+        baseSpeed = if (isFastMode) Constants.GAME_TICK_MS / 2 else Constants.GAME_TICK_MS
 
+        // Initialize Ticker with the game loop logic
+        gameTicker = GameTicker {
+            updateGameStep()
+        }
 
-        // 2. Initialize GameManager (Pure Logic)
+        gameGridManager = GameGridManager(linearMatrix)
+        tiltDetector = TiltDetector(this, this)
+        attackPlayer = AttackPlayer(Constants.NUM_LANES)
         gameManager = GameManager(
-            numRows = Constants.NUM_ROWS,
-            numLanes = Constants.NUM_LANES,
-            numDefenders = Constants.NUM_DEFENDERS,
-            // gameGride parameter removed
-            lifeCount = Constants.LIFE_COUNT
+            Constants.NUM_ROWS,
+            Constants.NUM_LANES,
+            Constants.NUM_DEFENDERS,
+            Constants.LIFE_COUNT
         )
 
-        initButtons()
+        initViews()
         gameManager.initDefenders()
-        updatePlayerUI() 
+        gameGridManager.updateUI(gameManager.getDefenders(), attackPlayer.currentLane, gameManager.trophy)
 
         startGame()
     }
-    private val gameRunnable = object : Runnable {
-        override fun run() {
-            if (isFinishing || isDestroyed) return
 
-            if (!isGameRunning) return
+    // --- Main Logic extracted from Runnable ---
+    private fun updateGameStep() {
+        val hit = gameManager.updateGameLogic(attackPlayer.currentLane)
 
-            val hit = gameManager.updateDefenders(attackPlayer.currentLane)
+        gameGridManager.updateUI(
+            gameManager.getDefenders(),
+            attackPlayer.currentLane,
+            gameManager.trophy
+        )
 
-            updateDefendersUI()
+        updateHearts()
+        score_LBL.text = "${gameManager.score}"
 
-            if (hit) {
-                handleCollision()
+        if (hit) {
+            handleCollision()
+        } else {
+            if (gameManager.isGameOver) {
+                goToResult()
             } else {
-                if (!gameManager.isGameOver) {
-                    if (!isFinishing && !isDestroyed) {
-                        handler.postDelayed(this, gameTickMs)
-                    }
-                } else {
-                    goToResult()
-                }
+                updateSpeed()
             }
         }
+    }
+
+    private fun updateSpeed() {
+        val baseDelay = if (gameManager.isSpeedActive) baseSpeed / 2 else baseSpeed
+
+        val tiltEffect = when {
+            currentTiltY < -Constants.TILT_THRESHOLD -> Constants.SPEED_MULTIPLIER_SLOW
+            currentTiltY > Constants.TILT_THRESHOLD -> Constants.SPEED_MULTIPLIER_FAST
+            else -> 1.0f
+        }
+
+        // Update the ticker interval dynamically
+        gameTicker.interval = (baseDelay * tiltEffect).toLong()
+    }
+
+    private fun initBackgroundMusic() {
+        val musicTracks = arrayOf(R.raw.sound_nba_game, R.raw.sound_nba_2)
+        val randomTrack = musicTracks.random()
+        SignalManager.getInstance().playMusic(randomTrack)
     }
 
     override fun onResume() {
         super.onResume()
-        if (!gameManager.isGameOver && !isGameRunning) {
-            startGame()
-        }
+        tiltDetector.start()
+        SignalManager.getInstance().resumeMusic()
+        if (!gameManager.isGameOver && !gameTicker.isRunning()) startGame()
     }
 
     override fun onPause() {
         super.onPause()
+        if (useSensors) tiltDetector.stop()
+        SignalManager.getInstance().stopMusic()
         stopGame()
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-        handler.removeCallbacksAndMessages(null)
-    }
-
-
-    private fun startGame() {
-        if (!isGameRunning) {
-            isGameRunning = true
-            handler.post(gameRunnable)
+    override fun tiltX(x: Float) {
+        if (useSensors) {
+            if (x < -2.0) movePlayer(1)
+            else if (x > 2.0) movePlayer(-1)
         }
     }
 
-    private fun stopGame() {
-        isGameRunning = false
-        handler.removeCallbacks(gameRunnable)
-    }
-
-    private fun goToResult() {
-        stopGame()
-        val intent = Intent(this, ResultActivity::class.java)
-        startActivity(intent)
-        finish()
+    override fun tiltY(y: Float) {
+        currentTiltY = y
     }
 
     private fun handleCollision() {
         stopGame()
-
-        //  life and check game over status
         val isGameOverAfterFoul = gameManager.handleFoulLogic()
 
-        // update attacker in current position
-        updatePlayerUI()
+        gameGridManager.updateUI(
+            gameManager.getDefenders(),
+            attackPlayer.currentLane,
+            gameManager.trophy
+        )
 
-        foul_IMG_ref.visibility = View.VISIBLE
         updateHearts()
-
-        val foulMessage = when (gameManager.currentLives) {
-            2 -> "1st Foul"
-            1 -> "2nd Foul"
-            0 -> "You're Out!"
-            else -> "Foul!"
-        }
-        Toast.makeText(this, foulMessage, Toast.LENGTH_SHORT).show()
-        vibrate()
+        SignalManager.getInstance().playSound(R.raw.sound_whistle)
+        VibrationManager.getInstance().vibrate(500)
 
         showFoulForLives(gameManager.currentLives) {
-            foul_IMG_ref.visibility = View.GONE
-            if (!isGameOverAfterFoul) { // Use the boolean result from handleFoulLogic
-                startGame()
-            } else {
-                goToResult()
-            }
+            if (!isGameOverAfterFoul) startGame() else goToResult()
         }
+    }
+
+    private fun startGame() {
+        gameTicker.start()
+    }
+
+    private fun stopGame() {
+        gameTicker.stop()
+    }
+
+    private fun goToResult() {
+        SignalManager.getInstance().playSound(R.raw.sound_buzzer)
+        stopGame()
+        val intent = Intent(this, ResultActivity::class.java)
+        intent.putExtra("SCORE", gameManager.score)
+        intent.putExtra(Constants.KEY_SENSORS, useSensors)
+        intent.putExtra("KEY_FAST", isFastMode)
+        startActivity(intent)
+        finish()
     }
 
     private fun findViews() {
         linearMatrix = findViewById(R.id.linearMatrix)
+        foul_IMG_ref = findViewById(R.id.foul_IMG_ref)
+        score_LBL = findViewById(R.id.score_LBL)
         left_BTN_arrow = findViewById(R.id.left_BTN_arrow)
         right_BTN_arrow = findViewById(R.id.right_BTN_arrow)
-        foul_IMG_ref = findViewById(R.id.foul_IMG_ref)
-
+        arrows_container = findViewById(R.id.arrows_container)
         main_IMG_hearts = arrayOf(
             findViewById(R.id.main_IMG_heart2),
             findViewById(R.id.main_IMG_heart1),
@@ -180,86 +207,20 @@ class GameActivity : AppCompatActivity() {
         )
     }
 
-    private fun initButtons() {
-        right_BTN_arrow.setOnClickListener {
-            if (::attackPlayer.isInitialized) {
-                attackPlayer.move(1)
-                updatePlayerUI()    // Draw player at new position
-            }
-        }
-        left_BTN_arrow.setOnClickListener {
-            if (::attackPlayer.isInitialized) {
-                attackPlayer.move(-1)
-                updatePlayerUI()    // Draw player at new position
-            }
-        }
-    }
-
-    private fun buildGameGrid() {
-        gameGride = Array(Constants.NUM_ROWS) { row ->
-            val rowLayout = linearMatrix.getChildAt(row) as LinearLayout
-            Array(Constants.NUM_LANES) { col ->
-                rowLayout.getChildAt(col) as AppCompatImageView
-            }
-        }
-
-    }
-
-    // update the Attacker
-    private fun updatePlayerUI() {
-        val bottomRow = gameGride[Constants.NUM_ROWS - 1]
-        val currentLane = attackPlayer.currentLane
-
-        // Clear the the bottom
-        for (cell in bottomRow) {
-            cell.setImageDrawable(null)
-            cell.visibility = View.INVISIBLE
-        }
-
-        // Draw the player at the new position
-        bottomRow[currentLane].setImageResource(R.drawable.attack_player)
-        bottomRow[currentLane].visibility = View.VISIBLE
-    }
-
-    // update all Defenders
-    private fun updateDefendersUI() {
-        val defenders = gameManager.getDefenders() // Gets logical state
-
-        // Clear the defender grid area (all but the bottom row)
-        for (row in 0 until Constants.NUM_ROWS - 1) {
-            for (col in 0 until Constants.NUM_LANES) {
-                gameGride[row][col].visibility = View.INVISIBLE
-                gameGride[row][col].setImageDrawable(null)
-            }
-        }
-
-        for (defender in defenders) {
-            val row = defender.row
-            val col = defender.col
-
-            if (row in 0 until Constants.NUM_ROWS - 1) { // Draw only if it's on the grid
-                val img = gameGride[row][col]
-                img.setImageResource(defender.type.drawableResources)
-                img.visibility = View.VISIBLE
-            }
+    private fun initViews() {
+        if (useSensors) {
+            arrows_container.visibility = View.INVISIBLE
+        } else {
+            arrows_container.visibility = View.VISIBLE
+            right_BTN_arrow.setOnClickListener { movePlayer(1) }
+            left_BTN_arrow.setOnClickListener { movePlayer(-1) }
         }
     }
 
     private fun updateHearts() {
-        val currentLives = gameManager.currentLives
-
         for (i in main_IMG_hearts.indices) {
-            val imageView = main_IMG_hearts[i]
-
-            val lifeIndex =  i
-
-            if (lifeIndex < currentLives) {
-                imageView.setImageResource(R.drawable.heart)
-                imageView.visibility = View.VISIBLE
-            } else {
-                imageView.setImageResource(R.drawable.heart_empty)
-                imageView.visibility = View.VISIBLE
-            }
+            if (i < gameManager.currentLives) main_IMG_hearts[i].setImageResource(R.drawable.heart)
+            else main_IMG_hearts[i].setImageResource(R.drawable.heart_empty)
         }
     }
 
@@ -270,35 +231,22 @@ class GameActivity : AppCompatActivity() {
             0 -> FoulType.FOUL3
             else -> null
         }
-
-        foulType?.let { type ->
-            foul_IMG_ref.setImageResource(type.drawableRes)
+        foulType?.let {
+            foul_IMG_ref.setImageResource(it.drawableRes)
             foul_IMG_ref.visibility = View.VISIBLE
-
-            handler.postDelayed({
+            android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
                 foul_IMG_ref.visibility = View.GONE
                 onDone()
             }, Constants.FOUL_DELAY_MS)
         }
     }
 
-    private fun vibrate(duration: Long = 500) {
-        val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            (getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator
-        } else {
-            @Suppress("DEPRECATION")
-            getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        }
-
-        if (vibrator.hasVibrator()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                vibrator.vibrate(
-                    VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE)
-                )
-            } else {
-                @Suppress("DEPRECATION")
-                vibrator.vibrate(duration)
-            }
-        }
+    private fun movePlayer(direction: Int) {
+        attackPlayer.move(direction)
+        gameGridManager.updateUI(
+            gameManager.getDefenders(),
+            attackPlayer.currentLane,
+            gameManager.trophy
+        )
     }
 }

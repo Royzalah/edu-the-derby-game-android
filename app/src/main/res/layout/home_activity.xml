@@ -1,36 +1,262 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_background">
+    android:background="@drawable/home_background"
+    tools:context=".HomeActivity">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_overlay_home"/>
 
     <TextView
-        android:id="@+id/MainTitle"
+        android:id="@+id/main_LBL_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/home_text_LBL"
-        android:textSize="@dimen/main_LBL_size"
-        android:textStyle="bold"
-        android:textColor="@color/color_home_screen"
-        android:layout_centerHorizontal="true"
+        android:text="@string/app_title"
         android:fontFamily="@font/russo"
-        android:layout_marginTop="@dimen/main_margin_title" />
-
+        android:textColor="@color/gold_theme"
+        android:textSize="@dimen/text_mega"
+        android:shadowColor="@color/black"
+        android:shadowDx="@dimen/shadow_dx_lg"
+        android:shadowDy="@dimen/shadow_dy_lg"
+        android:shadowRadius="@dimen/shadow_radius_lg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/margin_100"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/start_game_BTN"
-        android:layout_width="@dimen/size_main_btn_width"
-        android:layout_height="@dimen/size_btn_high"
-        android:text="@string/start_game"
-        android:textSize="@dimen/text_size"
-        android:fontFamily="@font/russo"
+        android:id="@+id/start_BTN"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="@dimen/btn_start_size"
+        android:layout_height="@dimen/btn_start_size"
+        android:text="@string/start_game_tip_off"
+        android:textSize="@dimen/text_gigantic"
         android:textStyle="bold"
-        android:textColor="@color/color_text_btn"
-        android:backgroundTint="@color/color_home_screen"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/width_image_layout"
-        app:cornerRadius="@dimen/radius_button"  />
-</RelativeLayout>
+        android:fontFamily="@font/russo"
+        android:textColor="@color/gold_theme"
+        android:lineSpacingMultiplier="@dimen/line_spacing_multiplier"
+        android:textAlignment="center"
+        app:layout_marginBaseline="@dimen/margin_baseline_start"
+        android:shadowColor="@color/black"
+        android:shadowDx="@dimen/shadow_dx_md"
+        android:shadowDy="@dimen/shadow_dy_md"
+        android:shadowRadius="@dimen/shadow_radius_md"
+
+        app:backgroundTint="@color/background_dark_blue"
+        app:cornerRadius="@dimen/btn_start_corner"
+        app:strokeColor="@color/gold_theme"
+        app:strokeWidth="@dimen/stroke_extra_thick"
+        android:elevation="@dimen/elevation_start_btn"
+        app:rippleColor="@color/gold_theme"
+
+        android:layout_marginBottom="@dimen/margin_100"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/top10_BTN"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="@dimen/btn_width_main"
+        android:layout_height="@dimen/btn_height_main_small"
+        android:text="@string/hall_of_fame_btn"
+        android:fontFamily="@font/russo"
+        android:textColor="@color/gold_theme"
+        android:textSize="@dimen/text_lg"
+        app:strokeColor="@color/gold_theme"
+        app:strokeWidth="@dimen/stroke_thick"
+        app:backgroundTint="@color/background_dark_blue"
+        app:cornerRadius="@dimen/corner_radius_btn"
+        android:layout_marginTop="@dimen/margin_xxl"
+        app:layout_constraintTop_toBottomOf="@id/start_BTN"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/bottom_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/margin_lg"
+        android:paddingBottom="@dimen/margin_50"
+        android:clipToPadding="false"
+        android:background="@color/background_dark_blue"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:text="@string/settings_title"
+            android:textColor="@color/gold_theme"
+            android:textSize="@dimen/text_title"
+            android:fontFamily="@font/russo"
+            android:letterSpacing="@dimen/letter_spacing_wide"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_lg"
+            android:shadowColor="@color/black"
+            android:shadowDx="@dimen/shadow_dx_sm"
+            android:shadowDy="@dimen/shadow_dy_sm"
+            android:shadowRadius="@dimen/shadow_radius_sm"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:text="@string/game_mode_label"
+                    android:textColor="@color/gold_theme"
+                    android:textSize="@dimen/text_md"
+                    android:fontFamily="@font/russo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_md"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_xs"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/mode_BTN_tilt"
+                        android:layout_width="@dimen/btn_settings_size"
+                        android:layout_height="@dimen/btn_settings_size"
+                        android:layout_margin="@dimen/margin_sm"
+                        android:text="@string/mode_tilt"
+                        android:textSize="@dimen/text_xs"
+                        android:maxLines="1"
+                        android:fontFamily="@font/russo"
+                        app:icon="@drawable/ic_sensor"
+                        app:iconGravity="textTop"
+                        style="@style/Widget.MaterialComponents.Button"
+                        app:iconSize="@dimen/icon_size_std"
+                        app:iconPadding="@dimen/margin_sm"
+                        app:iconTint="@drawable/selector_glass_text"
+                        android:textColor="@drawable/selector_glass_text"
+                        app:backgroundTint="@drawable/selector_glass_bg"
+                        app:strokeColor="@color/gold_theme"
+                        app:strokeWidth="@dimen/stroke_thick"
+                        app:cornerRadius="@dimen/corner_radius_btn"
+                        android:elevation="@dimen/elevation_btn"
+                        app:rippleColor="@color/gold_theme"
+                        android:insetTop="@dimen/btn_inset_zero"
+                        android:insetBottom="@dimen/btn_inset_zero"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/mode_BTN_arrows"
+                        android:layout_width="@dimen/btn_settings_size"
+                        android:layout_height="@dimen/btn_settings_size"
+                        android:layout_margin="@dimen/margin_sm"
+                        android:text="@string/mode_arrow"
+                        android:textSize="@dimen/text_xs"
+                        android:maxLines="1"
+                        android:fontFamily="@font/russo"
+                        app:icon="@drawable/ic_arrows"
+                        app:iconGravity="textTop"
+                        app:iconSize="@dimen/icon_size_std"
+                        app:iconPadding="@dimen/margin_sm"
+                        app:iconTint="@drawable/selector_glass_text"
+                        android:textColor="@drawable/selector_glass_text"
+                        app:backgroundTint="@drawable/selector_glass_bg"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:strokeColor="@color/gold_theme"
+                        app:strokeWidth="@dimen/stroke_thick"
+                        app:cornerRadius="@dimen/corner_radius_btn"
+                        android:elevation="@dimen/elevation_btn"
+                        app:rippleColor="@color/gold_theme"
+                        android:insetTop="@dimen/btn_inset_zero"
+                        android:insetBottom="@dimen/btn_inset_zero"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/divider_width_settings"
+                android:layout_height="@dimen/divider_height_settings"
+                android:background="@color/divider_line"
+                android:layout_gravity="center_vertical"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:text="@string/difficulty_label"
+                    android:textColor="@color/gold_theme"
+                    android:textSize="@dimen/text_md"
+                    android:fontFamily="@font/russo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_md"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_xs"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/level_BTN_slow"
+                        android:layout_width="@dimen/btn_settings_size"
+                        android:layout_height="@dimen/btn_settings_size"
+                        android:layout_margin="@dimen/margin_sm"
+                        android:text="@string/difficulty_easy"
+                        android:textSize="@dimen/text_sm"
+                        android:maxLines="1"
+                        android:fontFamily="@font/russo"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:textColor="@drawable/selector_glass_text"
+                        app:backgroundTint="@drawable/selector_glass_bg"
+                        app:strokeColor="@color/gold_theme"
+                        app:strokeWidth="@dimen/stroke_thick"
+                        app:cornerRadius="@dimen/corner_radius_btn"
+                        android:elevation="@dimen/elevation_btn"
+                        app:rippleColor="@color/gold_theme"
+                        android:insetTop="@dimen/btn_inset_zero"
+                        android:insetBottom="@dimen/btn_inset_zero"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/level_BTN_fast"
+                        android:layout_width="@dimen/btn_settings_size"
+                        android:layout_height="@dimen/btn_settings_size"
+                        android:layout_margin="@dimen/margin_sm"
+                        android:text="@string/difficulty_hard"
+                        android:textSize="@dimen/text_sm"
+                        android:maxLines="1"
+                        android:fontFamily="@font/russo"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:textColor="@drawable/selector_glass_text"
+                        app:backgroundTint="@drawable/selector_glass_bg"
+                        app:strokeColor="@color/gold_theme"
+                        app:strokeWidth="@dimen/stroke_thick"
+                        app:cornerRadius="@dimen/corner_radius_btn"
+                        android:elevation="@dimen/elevation_btn"
+                        app:rippleColor="@color/gold_theme"
+                        android:insetTop="@dimen/btn_inset_zero"
+                        android:insetBottom="@dimen/btn_inset_zero"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

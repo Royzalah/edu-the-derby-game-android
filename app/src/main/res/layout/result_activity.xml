@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -9,47 +9,153 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_res_screen"/>
+        android:background="@color/background_overlay_blue"/>
 
     <TextView
         android:id="@+id/game_over_LBL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/game_over"
-        android:textSize="@dimen/main_LBL_size"
-        android:textColor="@color/color_game_over_lbl"
+        android:textSize="@dimen/text_mega"
+        android:textColor="@color/game_over_red"
         android:fontFamily="@font/russo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/width_image_layout"/>
+        android:shadowColor="@color/black"
+        android:shadowDx="@dimen/shadow_dx_lg"
+        android:shadowDy="@dimen/shadow_dy_lg"
+        android:shadowRadius="@dimen/shadow_radius_lg"
+        android:layout_marginTop="@dimen/margin_50"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <TextView
+        android:id="@+id/score_LBL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/score_label"
+        android:textSize="@dimen/text_huge"
+        android:textColor="@color/white"
+        android:fontFamily="@font/russo"
+        android:shadowColor="@color/black"
+        android:shadowDx="@dimen/shadow_dx_md"
+        android:shadowDy="@dimen/shadow_dy_md"
+        android:shadowRadius="@dimen/shadow_radius_md"
+        android:layout_marginTop="@dimen/margin_lg"
+        app:layout_constraintTop_toBottomOf="@id/game_over_LBL"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/name_input_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="@dimen/input_width"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_lg"
+        android:hint="@string/enter_name_hint"
+        android:textColorHint="@color/grey_hint"
+        app:boxStrokeColor="@color/gold_theme"
+        app:boxStrokeWidth="@dimen/stroke_thick"
+        app:hintTextColor="@color/gold_theme"
+        app:layout_constraintTop_toBottomOf="@id/score_LBL"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name_ET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="@font/russo"
+            android:maxLines="1"
+            android:inputType="textPersonName"
+            android:background="@color/black_overlay_input"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_BTN"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="@dimen/btn_width_result"
+        android:layout_height="@dimen/btn_height_standard"
+        android:text="@string/save_score"
+        android:textSize="@dimen/text_xl"
+        android:fontFamily="@font/russo"
+        android:textStyle="bold"
+        app:rippleColor="@color/gold_theme"
+        android:textColor="@drawable/selector_glass_text"
+        app:backgroundTint="@drawable/selector_glass_bg"
+        app:strokeColor="@color/gold_theme"
+
+        android:elevation="@dimen/elevation_btn"
+        android:stateListAnimator="@null"
+
+        app:cornerRadius="@dimen/corner_radius_btn"
+        app:iconGravity="textStart"
+        android:insetTop="@dimen/btn_inset_zero"
+        android:insetBottom="@dimen/btn_inset_zero"
+
+        android:layout_marginTop="@dimen/margin_30"
+        app:layout_constraintTop_toBottomOf="@id/name_input_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/score_BTN"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="@dimen/btn_width_result"
+        android:layout_height="@dimen/btn_height_standard"
+        android:text="@string/hall_of_fame_btn"
+        android:textSize="@dimen/text_xl"
+        android:fontFamily="@font/russo"
+        app:rippleColor="@color/gold_theme"
+        android:textColor="@drawable/selector_glass_text"
+        app:backgroundTint="@drawable/selector_glass_bg"
+        app:strokeColor="@color/gold_theme"
+
+        app:strokeWidth="@dimen/stroke_thick"
+        app:cornerRadius="@dimen/corner_radius_btn"
+        android:layout_marginTop="@dimen/margin_xxl"
+        app:layout_constraintTop_toBottomOf="@id/save_BTN"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/restart_game_BTN"
-        android:layout_width="@dimen/size_result_btn_width"
-        android:layout_height="@dimen/size_btn_high"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="@dimen/btn_width_result"
+        android:layout_height="@dimen/btn_height_standard"
         android:text="@string/play_again"
-        android:textSize="@dimen/text_size"
-        android:textColor="@color/color_text_btn"
-        android:textAllCaps="true"
-        android:backgroundTint="@color/color_home_screen"
+        android:textSize="@dimen/text_xl"
         android:fontFamily="@font/russo"
-        android:layout_centerInParent="true"
-        app:cornerRadius="@dimen/radius_button"  />
+        app:rippleColor="@color/gold_theme"
+        android:textColor="@drawable/selector_glass_text"
+        app:backgroundTint="@drawable/selector_glass_bg"
+        app:strokeColor="@color/gold_theme"
+
+        app:strokeWidth="@dimen/stroke_thick"
+        app:cornerRadius="@dimen/corner_radius_btn"
+        android:layout_marginTop="@dimen/margin_xxl"
+        app:layout_constraintTop_toBottomOf="@id/score_BTN"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/home_BTN"
-        android:layout_width="@dimen/size_result_btn_width"
-        android:layout_height="@dimen/size_btn_high"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="@dimen/btn_width_result"
+        android:layout_height="@dimen/btn_height_standard"
         android:text="@string/main_menu"
-        android:textAllCaps="true"
-        android:textSize="@dimen/text_size"
-        android:textColor="@color/text"
-        android:backgroundTint="@color/color_text_btn"
+        android:textSize="@dimen/text_xl"
         android:fontFamily="@font/russo"
-        android:layout_below="@id/restart_game_BTN"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_btn_result_screen"
-        app:cornerRadius="@dimen/radius_button" />
+        app:rippleColor="@color/gold_theme"
+        android:textColor="@drawable/selector_glass_text"
+        app:backgroundTint="@drawable/selector_glass_bg"
+        app:strokeColor="@color/gold_theme"
 
+        app:strokeWidth="@dimen/stroke_thick"
+        app:cornerRadius="@dimen/corner_radius_btn"
+        android:layout_marginTop="@dimen/margin_xxl"
+        app:layout_constraintTop_toBottomOf="@id/restart_game_BTN"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

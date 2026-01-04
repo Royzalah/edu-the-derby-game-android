@@ -7,15 +7,12 @@ class AttackPlayer(
     var currentLane: Int = 1
         private set
 
+    // Updates player lane with boundary checks (0 to numLanes)
     fun move(direction: Int) {
         val newLane = currentLane + direction
-
         if (newLane in 0 until numLanes) {
             currentLane = newLane
-        } else if (newLane < 0) {
-            currentLane = numLanes - 1
-        } else {
-            currentLane = 0
         }
+
     }
 }

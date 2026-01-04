@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_dark_blue">
+
+    <TextView
+        android:id="@+id/lbl_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_xxl"
+        android:layout_marginBottom="@dimen/margin_md"
+        android:text="@string/hall_of_fame_title"
+        android:textColor="@color/gold_theme"
+        android:textSize="@dimen/text_title"
+        android:textStyle="bold"
+        android:fontFamily="@font/russo"/>
+
+    <FrameLayout
+        android:id="@+id/main_FRAME_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_xs"
+        android:background="@color/gold_theme"/>
+
+    <FrameLayout
+        android:id="@+id/main_FRAME_map"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/stroke_thin"
+        android:background="@color/gold_theme"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/text_lg"
+        android:background="@color/background_dark_blue"
+        android:gravity="center">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/high_score_BTN_play_again"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/btn_height_standard"
+            android:layout_marginEnd="@dimen/margin_md"
+            android:layout_weight="1"
+            android:fontFamily="@font/russo"
+            android:text="@string/play_again"
+            android:textColor="@color/gold_theme"
+            android:textSize="@dimen/text_lg"
+            android:textStyle="bold"
+            app:strokeColor="@color/gold_theme"
+            app:strokeWidth="@dimen/stroke_thin"
+            app:cornerRadius="@dimen/corner_radius_btn"
+            android:insetTop="@dimen/btn_inset_zero"
+            android:insetBottom="@dimen/btn_inset_zero"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/high_score_BTN_menu"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/btn_height_standard"
+            android:layout_marginStart="@dimen/margin_md"
+            android:layout_weight="1"
+            android:fontFamily="@font/russo"
+            android:text="@string/main_menu"
+            android:textColor="@color/gold_theme"
+            android:textSize="@dimen/text_lg"
+            android:textStyle="bold"
+            app:strokeColor="@color/gold_theme"
+            app:strokeWidth="@dimen/stroke_thin"
+            app:cornerRadius="@dimen/corner_radius_btn"
+            android:insetTop="@dimen/btn_inset_zero"
+            android:insetBottom="@dimen/btn_inset_zero"/>
+    </LinearLayout>
+
+</LinearLayout>
