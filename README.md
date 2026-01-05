@@ -63,7 +63,7 @@ com.example.myproject
 ├── 📂 interface        # CallbackHighScore
 ├── 📂 logic            # Business Logic (GameManager, GameGridManager, TiltDetector,GameTicker)
 ├── 📂 model            # Data Entities (AttackPlayer, BaseObject, Defender, Trophy)
-├── 📂 utilities        # Constants, Score, SharedPreferencesManager, SignalManager ,VibrationManager 
+├── 📂 utilities        # Constants, Score, SharedPreferencesManager, SignalManager ,VibrationManager , App
 ├── 📝 GameActivity.kt       # Main Game Loop & Sensors
 ├── 📝 HighScoreActivity.kt  # Leaderboard Container
 ├── 📝 HomeActivity.kt       # Main Menu & Settings
