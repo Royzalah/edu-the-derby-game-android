@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/margin_xxl"
+        android:layout_marginTop="@dimen/margin_30"
         android:layout_marginBottom="@dimen/margin_md"
         android:text="@string/hall_of_fame_title"
         android:textColor="@color/gold_theme"
